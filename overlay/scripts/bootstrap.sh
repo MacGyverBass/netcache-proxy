@@ -12,9 +12,7 @@ BANNER
 
 # Provide Defaults
 CACHE_MEM_SIZE="${CACHE_MEM_SIZE:-"500m"}" # Default to 500MB memory (per service/server)
-CACHE_DISK_SIZE="${CACHE_DISK_SIZE:-"1000000m"}" # Default to 1TB disk-space
 CACHE_MAX_AGE="${CACHE_MAX_AGE:-"3650d"}" # Default to 10 years
-LOGFILE_RETENTION="${LOGFILE_RETENTION:="1461d"}" # Default to 4 years
 NGINX_WORKER_PROCESSES="${NGINX_WORKER_PROCESSES:-"16"}" # Default to 16 workers
 INACTIVE_TIME="${INACTIVE_TIME:-"365d"}" # Default to 1 year
 UPSTREAM_DNS="${UPSTREAM_DNS:-"$(sed -n "s/^nameserver //p" /etc/resolv.conf)"}" # Default to the system nameservers
@@ -119,7 +117,7 @@ EOF
 
  # Add proxy_cache_path Entries
  cat << EOF >> "${PROXYCACHEPATH_DIR%/}/${ServiceName}.conf"
-proxy_cache_path ${Service_Cache_Path} levels=2:2 keys_zone=${ServiceName}:${CACHE_MEM_SIZE} inactive=${INACTIVE_TIME} max_size=${CACHE_DISK_SIZE} loader_files=1000 loader_sleep=50ms loader_threshold=300ms use_temp_path=off;
+proxy_cache_path ${Service_Cache_Path} levels=2:2 keys_zone=${ServiceName}:${CACHE_MEM_SIZE} inactive=${INACTIVE_TIME} ${CACHE_DISK_SIZE:+"max_size=${CACHE_DISK_SIZE}"} loader_files=1000 loader_sleep=50ms loader_threshold=300ms use_temp_path=off;
 EOF
 
 }
