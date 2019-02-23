@@ -81,11 +81,11 @@ addService () { # addService "Service Name" "Domain Names"
   rm -f /etc/nginx/conf.d/default.conf
  else
   Conf_File="${SERVICES_DIR%/}/${ServiceName}.conf"
-  Domain_Names="$(fnSplitStrings "${Domains}" |sed "s/^\*\.//;s/^/\*\./" |sort -u |paste -sd ' ' - )" # Space delimited domain names
+  Domain_Names="$(fnSplitStrings "${Domains}" |sed "s/^\*\.//;s/^/\./" |sort -u |paste -sd ' ' - )" # Space delimited domain names
   Server_Names="server_name ${Domain_Names};"
 
   # Add service maps
-  fnSplitStrings "${Domains}" |sed "s/^\*\.//;s/^/\*\./;s/^/    /;s/$/ ${ServiceName};/" |sort -u >> "${MAPS_DIR%/}/${ServiceName}.conf"
+  fnSplitStrings "${Domains}" |sed "s/^\*\.//;s/^.*$/    \.\0 ${ServiceName};/" |sort -u >> "${MAPS_DIR%/}/${ServiceName}.conf"
  fi
 
  # Setup and create the service-specific cache directory
