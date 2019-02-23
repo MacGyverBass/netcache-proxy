@@ -16,9 +16,9 @@ CACHE_MAX_AGE="${CACHE_MAX_AGE:-"3650d"}" # Default to 10 years
 NGINX_WORKER_PROCESSES="${NGINX_WORKER_PROCESSES:-"16"}" # Default to 16 workers
 INACTIVE_TIME="${INACTIVE_TIME:-"365d"}" # Default to 1 year
 UPSTREAM_DNS="${UPSTREAM_DNS:-"$(sed -n "s/^nameserver //p" /etc/resolv.conf)"}" # Default to the system nameservers
+CACHE_DOMAINS_REPO="${CACHE_DOMAINS_REPO:-"https://raw.githubusercontent.com/uklans/cache-domains/master/"}"
 
 # Static Entries
-CACHE_DOMAINS_REPO="https://raw.githubusercontent.com/uklans/cache-domains/master/"
 SNI_CONF="/etc/sniproxy.conf"
 NGINX_CONF="/etc/nginx/nginx.conf"
 RESOLVER_CONF="/etc/nginx/sites-available/conf.d/resolver.conf"
